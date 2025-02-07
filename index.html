@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="src/output.css" rel="stylesheet">
+
     <title>Document</title>
 </head>
 <body>
@@ -26,15 +27,15 @@
                 Cost:
                 <input type="number" id="expense-cost-field">
             </label>
-            <button>Add</button>
+            <button id="add-expense-button">Add</button>
         </div>
         <!--Row Two-->
         <div id="content-row-two" class="content-row flex flex-col items-center">
-            <div class="expense-item">
+<!--             <div class="expense-item">
                 <p class="expense-label">Groceries</p>
                 <p class="expense-slice-cost">$350</p>
                 <button class="expense-remove-button">X</button>
-            </div>
+            </div> -->
 
             <p id="expense-budget">Budget: </p>
             <p id="budget-remainer">Remainder: </p>
@@ -46,3 +47,5 @@
     </main>
 </body>
 </html>
+<script type="module" src="./utils/expenseFunctions.js"></script>
+<script type="module" src="./utils/budgetFunctions.js"></script>
