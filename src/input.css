@@ -1,2 +1,48 @@
 @import "tailwindcss";
 
+
+
+.content-row {
+    padding: 2%;
+    border-radius: 10%;
+    width: 30%;
+}
+
+#content-row-one {
+    background-color: rgb(0, 0, 0, 0.5);
+}
+
+#content-row-two {
+    background-color: rgba(155, 155, 155, 0.5);
+}
+
+#content-row-three{
+    background-color: rgba(216, 216, 216, 0.5);
+}
+
+.expense-item {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    padding: 5%;
+
+    border: 2px solid black;
+    border-radius: 10px;
+    width: 100%;
+
+    gap: 2%;
+}
+
+
+.expense-label {
+    color: white;
+    padding: 2%;
+    text-align: center;
+    width: 30%;
+    background-color:deepskyblue;
+    border-radius: 25px;
+}
+
+
+

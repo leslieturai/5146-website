@@ -3,12 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="./output.css" rel="stylesheet">
+    <link href="src/output.css" rel="stylesheet">
     <title>Document</title>
 </head>
 <body>
-    <h1 class="text-3xl font-bold underline">    
-        Hello world!  
-    </h1>
+    <main class="flex flex-row justify-evenly" id="content-container">
+        <!--Row One-->
+        <div id="content-row-one" class="content-row flex flex-col items-center">
+            <label for="budget-input">
+                Budget:
+                <input type="number" id="budget-input">
+            </label>
+            <p class="" id="budget-text">Your budget is: </p>
+            <h3>
+                Enter Expenses Below:
+            </h3>
+            <label for="expense-name-field">
+                Expense:
+                <input type="text" id="expense-name-field">
+            </label>
+            <label for="expense-cost-field">
+                Cost:
+                <input type="number" id="expense-cost-field">
+            </label>
+            <button>Add</button>
+        </div>
+        <!--Row Two-->
+        <div id="content-row-two" class="content-row flex flex-col items-center">
+            <div class="expense-item">
+                <p class="expense-label">Groceries</p>
+                <p class="expense-slice-cost">$350</p>
+                <button class="expense-remove-button">X</button>
+            </div>
+
+            <p id="expense-budget">Budget: </p>
+            <p id="budget-remainer">Remainder: </p>
+        </div>
+        <!--Row Three-->
+        <div id="content-row-three" class="content-row">
+            <h2>Visualization</h2>
+        </div>
+    </main>
 </body>
 </html>
