@@ -9,7 +9,7 @@ const budgetInput = document.querySelector("#budget-input")
 const expenseBudget = document.querySelector("#expense-budget")
 
 // Remainder display
-const remainder = document.querySelector("#budget-remainer")
+const remainder = document.querySelector("#budget-remainder")
 
 // Elements to add expense
 const newExpName = document.querySelector("#expense-name-field")
@@ -19,6 +19,25 @@ const addExpButton = document.querySelector("#add-expense-button")
 
 var budget = 0
 var expenses = 0
+
+// Budget items array
+var budgetArray = [
+    {
+        id: 0,
+        label: "Groceries",
+        cost: 350
+    },
+    {
+        id: 1,
+        label: "Train",
+        cost: 5
+    },
+    {
+        id: 2,
+        label: "The Strokes Tickets",
+        cost: 35
+    },
+]
 
 
 // Functionality to add expenses
@@ -52,21 +71,23 @@ function calculateRemainder () {
 }
 
 
+export function getExpenseLabels () {
+    let tempLabels = []
+    for (let i = 0; i < budgetArray.length; i++) {
+        tempLabels.push(budgetArray[i].label)
+    }
+    return tempLabels
+}
+
+export function getCosts () {
+    let tempCosts = []
+    for (let i = 0; i < budgetArray.length; i++) {
+        tempCosts.push(budgetArray[i].cost)
+    }
+    return tempCosts
+}
 
 
-// Budget items array
-var budgetArray = [
-    {
-        id: 0,
-        label: "Groceries",
-        cost: 350
-    },
-    {
-        id: 1,
-        label: "Train",
-        cost: 5
-    },
-]
 
 
 
@@ -74,7 +95,7 @@ for (let i = 0; i < budgetArray.length; i++) {
     addExpenseItem(budgetArray[i].label, budgetArray[i].cost, budgetItemContainer)
 }
 
-remainder.innerHTML = budget - calculateRemainder()
+remainder.innerHTML = "Remainder: " + Number(budget - calculateRemainder())
 
 
 

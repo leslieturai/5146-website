@@ -1202,6 +1202,9 @@
   .justify-items-stretch {
     justify-items: stretch;
   }
+  .gap-2 {
+    gap: calc(var(--spacing) * 2);
+  }
   .space-y-reverse {
     :where(& > :not(:last-child)) {
       --tw-space-y-reverse: 1;
@@ -2157,6 +2160,11 @@
     transform-box: view-box;
   }
 }
+input {
+  padding: 2%;
+  background-color: white;
+  border-radius: 15px;
+}
 .content-row {
   padding: 2%;
   border-radius: 10%;
@@ -2170,6 +2178,12 @@
 }
 #content-row-three {
   background-color: rgba(216, 216, 216, 0.5);
+}
+#add-expense-button {
+  padding-left: 10%;
+  padding-right: 10%;
+  background-color: cornflowerblue;
+  border-radius: 10px;
 }
 .expense-item {
   display: flex;
@@ -2189,6 +2203,17 @@
   width: 30%;
   background-color: deepskyblue;
   border-radius: 25px;
+}
+#expense-budget, #budget-remainder {
+  padding: 5%;
+  width: 100%;
+  border-radius: 10px;
+}
+#expense-budget {
+  background-color: dodgerblue;
+}
+#budget-remainder {
+  background-color: darkseagreen;
 }
 @keyframes spin {
   to {
