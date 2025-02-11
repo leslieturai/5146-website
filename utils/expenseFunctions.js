@@ -40,6 +40,9 @@ var budgetArray = [
 ]
 
 
+
+
+
 // Functionality to add expenses
 function addExpense (_id, _label, _cost) {
     if (newExpName.value && newExpCost) {
@@ -70,6 +73,7 @@ function calculateRemainder () {
     return tempSum
 }
 
+// budgetArray.map((record) => console.log(record.cost))
 
 export function getExpenseLabels () {
     let tempLabels = []
