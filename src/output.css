@@ -533,6 +533,9 @@
   .pointer-events-none {
     pointer-events: none;
   }
+  .\!visible {
+    visibility: visible !important;
+  }
   .collapse {
     visibility: collapse;
   }
@@ -695,6 +698,9 @@
       max-width: 96rem !important;
     }
   }
+  .m-2 {
+    margin: calc(var(--spacing) * 2);
+  }
   .box-border {
     box-sizing: border-box;
   }
@@ -781,6 +787,15 @@
   }
   .aspect-square {
     aspect-ratio: 1 / 1;
+  }
+  .h-1 {
+    height: calc(var(--spacing) * 1);
+  }
+  .h-2 {
+    height: calc(var(--spacing) * 2);
+  }
+  .h-48 {
+    height: calc(var(--spacing) * 48);
   }
   .h-screen {
     height: 100vh;
@@ -924,6 +939,9 @@
   }
   .transform {
     transform: var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y);
+  }
+  .transform\! {
+    transform: var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y) !important;
   }
   .transform-cpu {
     transform: var(--tw-rotate-x) var(--tw-rotate-y) var(--tw-rotate-z) var(--tw-skew-x) var(--tw-skew-y);
@@ -2068,6 +2086,12 @@
   .\[keywords\:node-addon-api\] {
     keywords: node-addon-api;
   }
+  .\[options\:IParseOptions\] {
+    options: IParseOptions;
+  }
+  .\[root\:Root\] {
+    root: Root;
+  }
   .backface-hidden {
     backface-visibility: hidden;
   }
@@ -2169,6 +2193,33 @@ input {
   padding: 2%;
   border-radius: 10%;
   width: 30%;
+}
+#log-in-form {
+  border: 2px solid black;
+  padding: 5%;
+  width: 50%;
+}
+#log-in-div, #password-div {
+  display: flex;
+  flex-direction: row;
+  gap: 10%;
+}
+#username-input, #password-input {
+  padding: 0;
+  background-color: white;
+  border-radius: 15px;
+  border: 2px solid black;
+}
+#log-in-btn-div {
+  display: flex;
+  flex-direction: column;
+  gap: 2%;
+  width: 100%;
+}
+#log-in-btn, #register-btn {
+  border: 2px solid black;
+  padding: 2%;
+  border-radius: 10px;
 }
 #content-row-one {
   background-color: rgb(0, 0, 0, 0.5);

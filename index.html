@@ -8,40 +8,21 @@
     <title>Document</title>
 </head>
 <body>
-    <main class="flex flex-row justify-evenly" id="content-container">
-        <!--Row One-->
-<!--         <div id="content-row-one" class="content-row flex flex-col items-start gap-2">
-            <label for="budget-input">
-                Budget:
-                <input type="number" id="budget-input">
-            </label>
-            <p class="" id="budget-text">Your budget is: </p>
-            <h3>
-                Enter Expenses Below:
-            </h3>
-            <label for="expense-name-field">
-                Expense:
-                <input type="text" id="expense-name-field">
-            </label>
-            <label for="expense-cost-field">
-                Cost:
-                <input type="number" id="expense-cost-field">
-            </label>
-            <button id="add-expense-button">Add</button>
-        </div> -->
-        <!--Row Two-->
-<!--         <div id="content-row-two" class="content-row flex flex-col items-center">
-            <p id="expense-budget">Budget: </p>
-            <p id="budget-remainder">Remainder: </p>
-        </div> -->
-        <!--Row Three-->
-<!--         <div id="content-row-three" class="content-row">
-            <h2>Expenses Summary</h2>
-            <div id="chartContainer">
-                <canvas id="myChart"></canvas>
-            </div>
-        </div> -->
-
+    <main class="flex flex-col items-center justify-center" id="content-container">
+        <form id="log-in-form" class="flex flex-col items-center gap-2">
+           <div id="log-in-div">
+                <label for="username-input">Username: </label>
+                <input type="text" id="username-input">
+           </div>
+           <div id="password-div">
+                <label for="password-input">Password:</label>
+                <input type="text" id="password-input">
+           </div>
+           <div id="log-in-button-div">
+                <button id="register-btn">Register</button>
+                <button id="log-in-btn">Login</button>
+           </div>
+        </form>
 
     </main>
 </body>
@@ -53,7 +34,7 @@
 
 
 
-    window.location.href = "./utils/pages/dashboard.html"
+    //window.location.href = "./utils/pages/dashboard.html"
     
 </script>
 <!--Import Chart.js-->

@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+/* Basic styles */
+
 input {
     padding: 2%;
     background-color: white;
@@ -11,6 +13,46 @@ input {
     border-radius: 10%;
     width: 30%;
 }
+
+/* Basic Styles End */
+
+/* Log-in Page Styles */
+
+#log-in-form {
+    border: 2px solid black;
+    padding: 5%;
+    width: 50%;
+}
+
+#log-in-div, #password-div {
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+}
+
+#username-input, #password-input {
+    padding: 0;
+    background-color: white;
+    border-radius: 15px;
+    border: 2px solid black;
+}
+
+#log-in-btn-div {
+    display: flex;
+    flex-direction: column;
+    gap: 2%;
+    width: 100%;
+}
+
+#log-in-btn, #register-btn {
+    border: 2px solid black;
+    padding: 2%;
+    border-radius: 10px;
+}
+
+/* Log-in Page Styles Emd*/
+
+/* Dashboard styles */
 
 #content-row-one {
     background-color: rgb(0, 0, 0, 0.5);
@@ -45,7 +87,6 @@ input {
     gap: 2%;
 }
 
-
 .expense-label {
     color: white;
     padding: 2%;
@@ -68,3 +109,5 @@ input {
 #budget-remainder {
     background-color: darkseagreen;
 }
+
+/* Dashboard Styles End */
