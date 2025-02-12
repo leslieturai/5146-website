@@ -3,6 +3,9 @@ import { getAuth } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth
 
 import { Database, getDatabase, ref, onValue, child, get } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
+var loggedIn = false
+
+
 const firebaseConfig = {
     apiKey: "AIzaSyAKsJC-oY99grk3vOF1jqnGG2Xhpaxcyn8",
     authDomain: "midterm-8c698.firebaseapp.com",
@@ -25,3 +28,5 @@ const dbRef = ref(db)
 /* get(child(dbRef, "/1")).then((snapshot) => {
     console.log(snapshot.val())
 }) */
+
+export default loggedIn;

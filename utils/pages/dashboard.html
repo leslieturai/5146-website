@@ -3,14 +3,14 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="src/output.css" rel="stylesheet">
+    <link href="/src/output.css" rel="stylesheet">
 
-    <title>Document</title>
+    <title>Dashboard</title>
 </head>
 <body>
     <main class="flex flex-row justify-evenly" id="content-container">
         <!--Row One-->
-<!--         <div id="content-row-one" class="content-row flex flex-col items-start gap-2">
+        <div id="content-row-one" class="content-row flex flex-col items-start gap-2">
             <label for="budget-input">
                 Budget:
                 <input type="number" id="budget-input">
@@ -28,33 +28,58 @@
                 <input type="number" id="expense-cost-field">
             </label>
             <button id="add-expense-button">Add</button>
-        </div> -->
+        </div>
         <!--Row Two-->
-<!--         <div id="content-row-two" class="content-row flex flex-col items-center">
+        <div id="content-row-two" class="content-row flex flex-col items-center">
             <p id="expense-budget">Budget: </p>
             <p id="budget-remainder">Remainder: </p>
-        </div> -->
+        </div>
         <!--Row Three-->
-<!--         <div id="content-row-three" class="content-row">
+        <div id="content-row-three" class="content-row">
             <h2>Expenses Summary</h2>
             <div id="chartContainer">
                 <canvas id="myChart"></canvas>
             </div>
-        </div> -->
+        </div>
 
 
     </main>
 </body>
 </html>
+<script type="module" src="../expenseFunctions.js"></script>
+<script type="module" src="../budgetFunctions.js"></script>
+<!--Script to manage conditional rendering-->
 <script type="module">
-    import loggedIn from "./src/index.js"
+    //import loggedIn from "./src/index.js"
     
     const main = document.querySelector("#content-container")
 
-
-
-    window.location.href = "./utils/pages/dashboard.html"
     
 </script>
 <!--Import Chart.js-->
-<script type="module" src="./src/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<!--Render Expense Data-->
+<script type="module">
+    import { getExpenseLabels, getCosts } from "../expenseFunctions.js"
+    
+    const ctx = document.getElementById('myChart');
+
+    const data = {
+    labels: getExpenseLabels(),
+    datasets: [{
+        data: getCosts(),
+        backgroundColor: [
+        'rgb(255, 99, 132)',
+        'rgb(54, 162, 235)',
+        'rgb(255, 205, 86)'
+        ],
+        hoverOffset: 4
+    }]
+    };
+
+    new Chart(ctx, {
+    type: "pie",
+    data: data
+    });
+</script>
+<!-- <script type="module" src="./src/index.js"></script> -->
