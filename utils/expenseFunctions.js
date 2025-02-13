@@ -1,4 +1,5 @@
 import addExpenseItem from "./expenseItem.js"
+import { getBudget } from "../src/firebaseConfig.js"
 
 const budgetItemContainer = document.querySelector("#content-row-two")
 
@@ -21,7 +22,7 @@ var budget = 0
 var expenses = 0
 
 // Budget items array
-var budgetArray = [
+/* var budgetArray = [
     {
         id: 0,
         label: "Groceries",
@@ -38,23 +39,42 @@ var budgetArray = [
         cost: 35
     },
 ]
+ */
+
+var budgetArray = []
 
 
+function renderExpenses () {
+    for (let i = 0; i < budgetArray.expenses.length; i++) {
+        addExpenseItem(budgetArray.expenses[i].label, budgetArray.expenses[i].cost, budgetItemContainer)
+    }
+}
 
+async function fetchBudget() {
+    const budget = await getBudget()
+    budgetArray = budget.userBudget
+    //console.log(budgetArray)
+    renderExpenses()
+}
 
+fetchBudget()
 
 // Functionality to add expenses
 function addExpense (_id, _label, _cost) {
     if (newExpName.value && newExpCost) {
         console.log("valid expense")
 
-        budgetArray.push(
+        budgetArray.expenses.push(
             {
                 id: _id,
                 label: _label,
                 cost: _cost
             }
         )
+
+        
+
+        console.log(budgetArray)
 
     } else {
         console.log("Error")
@@ -95,9 +115,7 @@ export function getCosts () {
 
 
 
-for (let i = 0; i < budgetArray.length; i++) {
-    addExpenseItem(budgetArray[i].label, budgetArray[i].cost, budgetItemContainer)
-}
+
 
 remainder.innerHTML = "Remainder: " + Number(budget - calculateRemainder())
 
@@ -111,5 +129,5 @@ budgetInput.addEventListener("input", (event) => {
 })
 
 addExpButton.addEventListener("click", (event) => {
-    addExpense(budgetArray.length + 1, newExpName.value, newExpCost.value)
+    addExpense(budgetArray.expenses.length + 1, newExpName.value, newExpCost.value)
 })

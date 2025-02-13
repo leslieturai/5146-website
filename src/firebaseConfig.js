@@ -1,10 +1,9 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-app.js";
 import { getAuth, signInWithPopup, GoogleAuthProvider, signOut  } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-auth.js";
 
-import { getDatabase, ref, onValue, child, get } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
+import { getDatabase, ref, child, get, set, remove } from "https://www.gstatic.com/firebasejs/11.3.1/firebase-database.js";
 
 
-var loggedIn = false
 
 
 const firebaseConfig = {
@@ -18,17 +17,41 @@ const firebaseConfig = {
     measurementId: "G-B7D6VQWP0D"
   };
   
-  // Initialize Firebase
-  const app = initializeApp(firebaseConfig);
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
 
-//const db = getDatabase(app)
+const db = getDatabase(app)
+
+var userBudget = {
+  "userBudget": {
+      "setBudget": 0,
+      "expenses": [
+          {
+              "id": 0,
+              "label": "Groceries",
+              "cost": 350
+          },
+          {
+              "id": 1,
+              "label": "Train",
+              "cost": 5
+          },
+          {
+              "id": 2,
+              "label": "The Strokes Tickets",
+              "cost": 35
+          }
+      ]
+  }
+}
 
 
 
-//const dbRef = ref(db)
-/* get(child(dbRef, "/1")).then((snapshot) => {
-    console.log(snapshot.val())
-}) */
+const dbRef = ref(db)
+
+
+
+
 
 const auth = getAuth();
 
@@ -70,4 +93,31 @@ export async function handleGoogleSignOut () {
     })
 }
 
-export default loggedIn;
+
+export async function getBudget() {
+  try {
+    const snapshot = await get(child(dbRef, "/0"))
+    return snapshot.val()
+  } catch (err) {
+    console.error(err)
+    return null
+  }
+}
+
+export async function testDelete() {
+  try {
+    const pathRef = ref(db, "/0"); 
+    await remove(pathRef)
+    console.log("Data deleted successfully")
+  } catch (error) {
+    console.error("Error deleting data:", error)
+  } 
+} 
+
+export async function setBudget (newBudget) {
+  try {
+    set(ref(db, "0"), newBudget )
+  } catch (error) {
+    console.error("Error setting data:", error)
+  }
+}
