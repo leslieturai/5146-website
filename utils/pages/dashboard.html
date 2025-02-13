@@ -8,6 +8,11 @@
     <title>Dashboard</title>
 </head>
 <body>
+    <header>
+        <div id="sign-out-container">
+            <button id="sign-out-btn">Sign Out</button>
+        </div>
+    </header>
     <main class="flex flex-row justify-evenly" id="content-container">
         <!--Row One-->
         <div id="content-row-one" class="content-row flex flex-col items-start gap-2">
@@ -82,4 +87,11 @@
     data: data
     });
 </script>
-<!-- <script type="module" src="./src/index.js"></script> -->
+<script type="module">
+    import { handleGoogleSignOut } from "/src/firebaseConfig.js"
+
+    document.getElementById("sign-out-btn").addEventListener("click", (event) => {
+        event.preventDefault()
+        handleGoogleSignOut()
+    })
+</script>

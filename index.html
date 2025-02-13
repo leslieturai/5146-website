@@ -9,33 +9,26 @@
 </head>
 <body>
     <main class="mt-[8%] flex flex-col items-center justify-center" id="content-container">
-        <form id="log-in-form" class="flex flex-col items-center gap-2">
-           <div id="log-in-div">
-                <label for="username-input">Username: </label>
-                <input type="text" id="username-input">
-           </div>
-           <div id="password-div">
-                <label for="password-input">Password:</label>
-                <input type="text" id="password-input">
-           </div>
-           <div id="log-in-btn-div">
-                <button id="register-btn">Register</button>
+          <div id="btn-div">
                 <button id="log-in-btn">Login</button>
-           </div>
-        </form>
-
+          </div>
     </main>
 </body>
 </html>
 <script type="module">
-    import loggedIn from "./src/index.js"
+    import loggedIn from "./src/firebaseConfig.js"
+    import { handleGoogleLogIn } from "./src/firebaseConfig.js"
     
     const main = document.querySelector("#content-container")
 
+    document.getElementById("log-in-btn").addEventListener("click", async (event) => {
+        event.preventDefault()
+        await handleGoogleLogIn()
+    })
 
 
     //window.location.href = "./utils/pages/dashboard.html"
     
 </script>
 <!--Import Chart.js-->
-<script type="module" src="./src/index.js"></script>
+<script type="module" src="./src/firebaseConfig.js"></script>
