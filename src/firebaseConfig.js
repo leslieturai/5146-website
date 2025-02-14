@@ -104,7 +104,7 @@ export async function getBudget() {
   }
 }
 
-export async function testDelete() {
+export async function deleteSavedBudget () {
   try {
     const pathRef = ref(db, "/0"); 
     await remove(pathRef)
@@ -121,3 +121,6 @@ export async function setBudget (newBudget) {
     console.error("Error setting data:", error)
   }
 }
+
+/* deleteSavedBudget()
+setBudget(userBudget) */

@@ -662,6 +662,24 @@
   .clear-start {
     clear: inline-start;
   }
+  .\!container {
+    width: 100% !important;
+    @media (width >= 40rem) {
+      max-width: 40rem !important;
+    }
+    @media (width >= 48rem) {
+      max-width: 48rem !important;
+    }
+    @media (width >= 64rem) {
+      max-width: 64rem !important;
+    }
+    @media (width >= 80rem) {
+      max-width: 80rem !important;
+    }
+    @media (width >= 96rem) {
+      max-width: 96rem !important;
+    }
+  }
   .container {
     width: 100%;
     @media (width >= 40rem) {
@@ -715,6 +733,9 @@
     display: block;
     -webkit-box-orient: horizontal;
     -webkit-line-clamp: unset;
+  }
+  .\!grid {
+    display: grid !important;
   }
   .block {
     display: block;
@@ -2221,11 +2242,16 @@ input {
 #content-row-three {
   background-color: rgba(216, 216, 216, 0.5);
 }
-#add-expense-button {
+#add-expense-btn, #save-expense-btn {
   padding-left: 10%;
   padding-right: 10%;
-  background-color: cornflowerblue;
   border-radius: 10px;
+}
+#add-expense-btn {
+  background-color: cornflowerblue;
+}
+#save-expense-btn {
+  background-color: cadetblue;
 }
 .expense-item {
   display: flex;

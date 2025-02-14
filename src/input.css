@@ -58,11 +58,18 @@ input {
     background-color: rgba(216, 216, 216, 0.5);
 }
 
-#add-expense-button {
+#add-expense-btn, #save-expense-btn {
     padding-left: 10%;
     padding-right: 10%;
-    background-color: cornflowerblue;
     border-radius: 10px;
+}
+
+#add-expense-btn {
+    background-color: cornflowerblue;
+}
+
+#save-expense-btn {
+    background-color: cadetblue;
 }
 
 .expense-item {

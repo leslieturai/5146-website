@@ -1,5 +1,5 @@
 import addExpenseItem from "./expenseItem.js"
-import { getBudget } from "../src/firebaseConfig.js"
+import { getBudget, deleteSavedBudget, setBudget } from "../src/firebaseConfig.js"
 
 const budgetItemContainer = document.querySelector("#content-row-two")
 
@@ -15,31 +15,23 @@ const remainder = document.querySelector("#budget-remainder")
 // Elements to add expense
 const newExpName = document.querySelector("#expense-name-field")
 const newExpCost = document.querySelector("#expense-cost-field")
-const addExpButton = document.querySelector("#add-expense-button")
+const addExpBtn = document.querySelector("#add-expense-btn")
+const saveExpBtn = document.querySelector("#save-expense-btn")
 
 
-var budget = 0
-var expenses = 0
+var budget;
 
-// Budget items array
-/* var budgetArray = [
-    {
-        id: 0,
-        label: "Groceries",
-        cost: 350
-    },
-    {
-        id: 1,
-        label: "Train",
-        cost: 5
-    },
-    {
-        id: 2,
-        label: "The Strokes Tickets",
-        cost: 35
-    },
-]
- */
+// Get data from db
+// Display loaded data
+// Allow user to update loaded, local data
+// Allow user to save/upload updated local data to db
+    /* 
+        Store updates in local copy
+        Delete data in db
+        Save updated data in db
+    */
+// loop
+
 
 var budgetArray = []
 
@@ -50,14 +42,25 @@ function renderExpenses () {
     }
 }
 
-async function fetchBudget() {
-    const budget = await getBudget()
-    budgetArray = budget.userBudget
-    //console.log(budgetArray)
-    renderExpenses()
+function clearExpenses () {
+    const elements = document.getElementsByClassName(".expense-item")
+    document.querySelectorAll(".expense-item").forEach(element => element.remove())
 }
 
-fetchBudget()
+async function fetchBudget() {
+    budget = await getBudget()
+    budgetArray = budget.userBudget
+    console.log(budgetArray)
+}
+
+fetchBudget().then((res) => {
+    renderExpenses()
+})
+
+console.log("here again")
+
+
+
 
 // Functionality to add expenses
 function addExpense (_id, _label, _cost) {
@@ -83,6 +86,7 @@ function addExpense (_id, _label, _cost) {
 
     
 }
+
 
 // Function to calculate remaining cash
 function calculateRemainder () {
@@ -117,17 +121,35 @@ export function getCosts () {
 
 
 
-remainder.innerHTML = "Remainder: " + Number(budget - calculateRemainder())
+//remainder.innerHTML = "Remainder: " + Number(budget - calculateRemainder())
 
 
 
 budgetInput.addEventListener("input", (event) => {
+    event.preventDefault()
     budget = budgetInput.value
     expenseBudget.innerHTML = "Budget: " + "$" + budget
-    remainder.innerHTML = budget - calculateRemainder()
+    //remainder.innerHTML = budget - calculateRemainder()
 
 })
 
-addExpButton.addEventListener("click", (event) => {
+addExpBtn.addEventListener("click", (event) => {
+    event.preventDefault()
     addExpense(budgetArray.expenses.length + 1, newExpName.value, newExpCost.value)
+    clearExpenses()
+    renderExpenses()
+})
+
+saveExpBtn.addEventListener("click", (event) => {
+    event.preventDefault()
+    deleteSavedBudget()
+    setBudget(budget)
+    //
+    clearExpenses()
+    fetchBudget().then((res) => {
+        renderExpenses()
+        
+    })
+
+
 })
