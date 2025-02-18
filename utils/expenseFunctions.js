@@ -18,6 +18,8 @@ const newExpCost = document.querySelector("#expense-cost-field")
 const addExpBtn = document.querySelector("#add-expense-btn")
 const saveExpBtn = document.querySelector("#save-expense-btn")
 
+// Remove expense button
+var removeExpBtn = []
 
 var budget;
 
@@ -33,37 +35,64 @@ var budget;
 // loop
 
 
+
 var budgetArray = []
 
 
-function renderExpenses () {
+
+/* function renderExpenses () {
     for (let i = 0; i < budgetArray.expenses.length; i++) {
         addExpenseItem(budgetArray.expenses[i].label, budgetArray.expenses[i].cost, budgetItemContainer)
     }
-}
+} */
 
 function clearExpenses () {
     const elements = document.getElementsByClassName(".expense-item")
     document.querySelectorAll(".expense-item").forEach(element => element.remove())
 }
 
-async function fetchBudget() {
-    budget = await getBudget()
-    budgetArray = budget.userBudget
-    console.log(budgetArray)
+// Function to calculate remaining cash
+function calculateRemainder (arr) {
+    let tempSum = 0
+    for (let i = 0; i < arr.length; i++) {
+        tempSum = tempSum + arr[i].cost
+    }
+    return tempSum
 }
 
-fetchBudget().then((res) => {
-    renderExpenses()
-})
+function renderExpenses() {
+    document.querySelectorAll(".expense-item").forEach(element => element.remove())
 
-console.log("here again")
+    for (let i = 0; i < budgetArray.expenses.length; i++) {
+        addExpenseItem(budgetArray.expenses[i].label, budgetArray.expenses[i].cost, budgetItemContainer);
+    }
 
+    attachRemoveEventListeners(); // Reattach event listeners after rendering
+}
 
+function attachRemoveEventListeners() {
+    removeExpBtn = document.querySelectorAll(".expense-remove-button");
 
+    removeExpBtn.forEach((element, i) => {
+        element.addEventListener("click", () => {
+            let tempIndex = ([...removeExpBtn].length - [...removeExpBtn].indexOf(element) - 1)
+
+            budgetArray.expenses.splice(tempIndex, 1);
+            renderExpenses(); // Re-render the list after removing an item
+        });
+    });
+}
+
+async function fetchBudget() {
+    budget = await getBudget();
+    budgetArray = budget.userBudget;
+    renderExpenses();
+}
+
+fetchBudget();
 
 // Functionality to add expenses
-function addExpense (_id, _label, _cost) {
+function addExpense (_id, _label, _cost, _budget) {
     if (newExpName.value && newExpCost) {
         console.log("valid expense")
 
@@ -71,9 +100,11 @@ function addExpense (_id, _label, _cost) {
             {
                 id: _id,
                 label: _label,
-                cost: _cost
+                cost: Number(_cost)
             }
         )
+
+        budgetArray.setBudget = remainder.innerHTML
 
         
 
@@ -88,14 +119,7 @@ function addExpense (_id, _label, _cost) {
 }
 
 
-// Function to calculate remaining cash
-function calculateRemainder () {
-    let tempSum = 0
-    for (let i = 0; i < budgetArray.length; i++) {
-        tempSum = tempSum + budgetArray[i].cost
-    }
-    return tempSum
-}
+
 
 // budgetArray.map((record) => console.log(record.cost))
 
@@ -121,7 +145,6 @@ export function getCosts () {
 
 
 
-//remainder.innerHTML = "Remainder: " + Number(budget - calculateRemainder())
 
 
 
@@ -129,7 +152,8 @@ budgetInput.addEventListener("input", (event) => {
     event.preventDefault()
     budget = budgetInput.value
     expenseBudget.innerHTML = "Budget: " + "$" + budget
-    //remainder.innerHTML = budget - calculateRemainder()
+    remainder.innerHTML = "Remainder: " + String(budget - calculateRemainder(budgetArray.expenses))
+
 
 })
 
@@ -137,7 +161,10 @@ addExpBtn.addEventListener("click", (event) => {
     event.preventDefault()
     addExpense(budgetArray.expenses.length + 1, newExpName.value, newExpCost.value)
     clearExpenses()
-    renderExpenses()
+    for (let i = 0; i < budgetArray.expenses.length; i++) {
+        addExpenseItem(budgetArray.expenses[i].label, budgetArray.expenses[i].cost, budgetItemContainer)
+    }
+    attachRemoveEventListeners()
 })
 
 saveExpBtn.addEventListener("click", (event) => {

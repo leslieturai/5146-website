@@ -124,3 +124,14 @@ export async function setBudget (newBudget) {
 
 /* deleteSavedBudget()
 setBudget(userBudget) */
+
+export async function deleteDBexpense (id) {
+  try {
+    const pathRef = ref(db, "/0/userBudget/expenses/" + id); 
+    await remove(pathRef)
+    console.log("expense deleted successfully")
+  } catch (error) {
+    console.error("Error deleting data:", error)
+  } 
+} 
+
