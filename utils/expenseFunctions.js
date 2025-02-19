@@ -18,23 +18,12 @@ const newExpCost = document.querySelector("#expense-cost-field")
 const addExpBtn = document.querySelector("#add-expense-btn")
 const saveExpBtn = document.querySelector("#save-expense-btn")
 
+const errorDisplay = document.querySelector("#error-display")
+
 // Remove expense button
 var removeExpBtn = []
 
 var budget;
-
-// Get data from db
-// Display loaded data
-// Allow user to update loaded, local data
-// Allow user to save/upload updated local data to db
-    /* 
-        Store updates in local copy
-        Delete data in db
-        Save updated data in db
-    */
-// loop
-
-
 
 var budgetArray = []
 
@@ -85,8 +74,12 @@ function attachRemoveEventListeners() {
 
 async function fetchBudget() {
     budget = await getBudget();
+    
     budgetArray = budget.userBudget;
     renderExpenses();
+
+    expenseBudget.innerHTML = "Budget:" + " " + "$" + budget.userBudget.setBudget
+    remainder.innerHTML = "Remainder: " + " " + "$" + String(budget.userBudget.setBudget - calculateRemainder(budgetArray.expenses))
 }
 
 fetchBudget();
@@ -103,11 +96,7 @@ function addExpense (_id, _label, _cost, _budget) {
                 cost: Number(_cost)
             }
         )
-
-        budgetArray.setBudget = remainder.innerHTML
-
         
-
         console.log(budgetArray)
 
     } else {
@@ -149,34 +138,72 @@ export function getCosts () {
 
 
 budgetInput.addEventListener("input", (event) => {
+    
+
     event.preventDefault()
-    budget = budgetInput.value
-    expenseBudget.innerHTML = "Budget: " + "$" + budget
-    remainder.innerHTML = "Remainder: " + String(budget - calculateRemainder(budgetArray.expenses))
+
+    budget.userBudget.setBudget = Number(budgetInput.value)
+
+    expenseBudget.innerHTML = "Budget: " + "$" + budget.userBudget.setBudget
+    remainder.innerHTML = "Remainder: " + " " + "$" + String(budget.userBudget.setBudget - calculateRemainder(budgetArray.expenses))
 
 
 })
 
 addExpBtn.addEventListener("click", (event) => {
     event.preventDefault()
+
+    // Expense error handling
+    if (budgetInput.value == "" || budgetInput.value < 0) {
+        errorDisplay.innerHTML = "Error: please enter a budget"
+        errorDisplay.setAttribute("class", "error")
+        return
+    } else if (newExpName.value == "") {
+        errorDisplay.innerHTML = "Error: please enter an expense name"
+        errorDisplay.setAttribute("class", "error")
+        return
+    } else if (newExpCost.value == "" || newExpCost.value < 0) {
+        errorDisplay.innerHTML = "Error: please enter an expense cost"
+        errorDisplay.setAttribute("class", "error")
+        return
+    }
+
+
+
     addExpense(budgetArray.expenses.length + 1, newExpName.value, newExpCost.value)
     clearExpenses()
     for (let i = 0; i < budgetArray.expenses.length; i++) {
         addExpenseItem(budgetArray.expenses[i].label, budgetArray.expenses[i].cost, budgetItemContainer)
     }
     attachRemoveEventListeners()
+
+    errorDisplay.innerHTML = "Expense added!"
+    errorDisplay.setAttribute("class", "success")
+
+    setTimeout(function () {
+        errorDisplay.innerHTML = ""
+        errorDisplay.setAttribute("class", "hidden")
+    }, 5000)
+    
 })
 
 saveExpBtn.addEventListener("click", (event) => {
+
+
+
     event.preventDefault()
+    //
+    budgetInput.value = ""
+    newExpName.value = ""
+    newExpCost.value = ""
+
+    //
+
     deleteSavedBudget()
     setBudget(budget)
     //
     clearExpenses()
-    fetchBudget().then((res) => {
-        renderExpenses()
-        
-    })
+    fetchBudget()
 
 
 })

@@ -1,4 +1,4 @@
-
+/* 
 // Budget input field
 const budgetInput = document.querySelector("#budget-input")
 // Budget text label
@@ -22,4 +22,4 @@ window.onload = (event) => {
 budgetInput.addEventListener("input", (event) => {
     setBudget(budgetInput.value)
 })
-
+ */

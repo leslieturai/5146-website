@@ -72,6 +72,20 @@ input {
     background-color: cadetblue;
 }
 
+.hidden {
+    opacity: 1;
+}
+
+.success {
+    color:chartreuse;
+}
+
+.error {
+    color: deeppink;
+}
+
+
+
 .expense-item {
     display: flex;
     flex-direction: row;

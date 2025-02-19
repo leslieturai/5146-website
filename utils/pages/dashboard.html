@@ -20,13 +20,12 @@
                 Budget:
                 <input type="number" id="budget-input">
             </label>
-            <p class="" id="budget-text">Your budget is: </p>
             <h3>
                 Enter Expenses Below:
             </h3>
             <label for="expense-name-field">
                 Expense:
-                <input type="text" id="expense-name-field">
+                <input type="text" id="expense-name-field" maxlength="25">
             </label>
             <label for="expense-cost-field">
                 Cost:
@@ -34,6 +33,7 @@
             </label>
             <button id="add-expense-btn">Add</button>
             <button id="save-expense-btn">Save</button>
+            <p id="error-display" class="hidden">TEST</p>
         </div>
         <!--Row Two-->
         <div id="content-row-two" class="content-row flex flex-col items-center">
@@ -54,18 +54,12 @@
 </html>
 <script type="module" src="../expenseFunctions.js"></script>
 <script type="module" src="../budgetFunctions.js"></script>
-<!--Script to manage conditional rendering-->
-<script type="module">
-    
-    const main = document.querySelector("#content-container")
-
-    
-</script>
 <!--Import Chart.js-->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!--Render Expense Data-->
 <script type="module">
     import { getExpenseLabels, getCosts } from "../expenseFunctions.js"
+
     
     const ctx = document.getElementById('myChart');
 
