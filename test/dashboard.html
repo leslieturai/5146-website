@@ -3,8 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="/src/output.css" rel="stylesheet">
+
     <title>Dashboard</title>
-    <link rel="stylesheet" href="/src/output.css">
 </head>
 <body>
     <header>
@@ -12,8 +13,8 @@
             <button id="sign-out-btn">Sign Out</button>
         </div>
     </header>
-    <main class="grid grid-cols-3 gap-4 p-5">
-        <!--Column One-->
+    <main class="grid grid-cols-3 gap-4 p-5" id="content-container">
+        <!--Row One-->
         <div id="content-row-one" class="content-row flex flex-col items-start gap-2">
             <label for="budget-input">
                 Budget:
@@ -38,17 +39,19 @@
 
             <p id="error-display" class="hidden">TEST</p>
         </div>
-
+        <!--Row Two-->
         <div id="content-row-two" class="content-row">
 
         </div>
-             
+        <!--Row Three-->
         <div id="content-row-three" class="content-row">
             <h2>Expenses Summary</h2>
             <div id="chartContainer">
                 <canvas id="myChart"></canvas>
             </div>
-        </div>   
+        </div>
+
+
     </main>
 </body>
 </html>

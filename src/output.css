@@ -1088,6 +1088,9 @@
   .auto-rows-min {
     grid-auto-rows: min-content;
   }
+  .grid-cols-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
   .grid-cols-none {
     grid-template-columns: none;
   }
@@ -1246,6 +1249,9 @@
   }
   .gap-2 {
     gap: calc(var(--spacing) * 2);
+  }
+  .gap-4 {
+    gap: calc(var(--spacing) * 4);
   }
   .space-y-reverse {
     :where(& > :not(:last-child)) {
@@ -1638,6 +1644,9 @@
   }
   .object-top {
     object-position: top;
+  }
+  .p-5 {
+    padding: calc(var(--spacing) * 5);
   }
   .text-center {
     text-align: center;
@@ -2215,8 +2224,9 @@ input {
 }
 .content-row {
   padding: 2%;
-  border-radius: 10%;
-  width: 30%;
+  border-radius: 1.5rem;
+  height: 95%;
+  max-height: 100%;
 }
 #btn-div {
   border: 2px solid black;
@@ -2238,6 +2248,8 @@ input {
 }
 #content-row-two {
   background-color: rgba(155, 155, 155, 0.5);
+  max-height: 100%;
+  overflow-y: scroll;
 }
 #content-row-three {
   background-color: rgba(216, 216, 216, 0.5);

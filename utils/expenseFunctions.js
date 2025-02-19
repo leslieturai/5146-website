@@ -96,7 +96,7 @@ function addExpense (_id, _label, _cost, _budget) {
                 cost: Number(_cost)
             }
         )
-        
+
         console.log(budgetArray)
 
     } else {
@@ -179,6 +179,11 @@ addExpBtn.addEventListener("click", (event) => {
 
     errorDisplay.innerHTML = "Expense added!"
     errorDisplay.setAttribute("class", "success")
+
+
+    budgetInput.value = ""
+    newExpName.value = ""
+    newExpCost.value = ""
 
     setTimeout(function () {
         errorDisplay.innerHTML = ""
