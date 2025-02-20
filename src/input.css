@@ -2,8 +2,14 @@
 
 
 
-  
+  /* #f17b89 */
 
+@media only screen and (min-width: 1024px ) {
+    html {
+        overflow: hidden;
+      }
+    
+}
 
 /* Basic styles */
 
@@ -17,9 +23,18 @@ input {
     padding: 2%;
     border-radius: 1.5rem;
     height: 95%;
-    max-height: 100%;
+    max-height: 80%;
+    width: 95%;
 
+}
 
+#nav-name {
+    font-size: 1.5rem;
+}
+
+#sign-out-btn {
+    border: 2px solid #00632b;
+    border-radius: 1.5rem;
 }
 
 /* Basic Styles End */
@@ -55,17 +70,20 @@ input {
 /* Dashboard styles */
 
 #content-row-one {
-    background-color: rgb(0, 0, 0, 0.5);
+    background-color: rgba(0, 99, 43, 0.502);
 }
 
 #content-row-two {
-    background-color: rgba(155, 155, 155, 0.5);
-    max-height: 100%;
+    background-color: rgb(89, 255, 71, 0.5);
+
+    max-height: 80%;
     overflow-y: scroll;
 }
 
 #content-row-three{
-    background-color: rgba(216, 216, 216, 0.5);
+    background-color: rgb(16, 255, 3, 0.5);
+
+
 }
 
 #add-expense-btn, #save-expense-btn {
@@ -75,11 +93,11 @@ input {
 }
 
 #add-expense-btn {
-    background-color: cornflowerblue;
+    background-color: #00bfff;
 }
 
 #save-expense-btn {
-    background-color: cadetblue;
+    background-color: #89f17b;
 }
 
 .hidden {
@@ -94,8 +112,6 @@ input {
     color: deeppink;
 }
 
-
-
 .expense-item {
     display: flex;
     flex-direction: row;
@@ -103,7 +119,7 @@ input {
     justify-content: space-between;
     padding: 5%;
 
-    border: 2px solid black;
+    border: 2px solid #00632b;
     border-radius: 10px;
     width: 100%;
 
@@ -115,8 +131,19 @@ input {
     padding: 2%;
     text-align: center;
     width: 30%;
-    background-color:deepskyblue;
+    background-color:#00bfff;
     border-radius: 25px;
+}
+
+.expense-remove-btn {
+    padding: 1rem;
+    border-radius: 5rem;
+    background-color: none;
+    transition: backgroundcolor 2s;
+}
+
+.expense-remove-btn:hover {
+    background-color: #f17b89
 }
 
 #expense-budget, #budget-remainder {
@@ -126,11 +153,11 @@ input {
 }
 
 #expense-budget {
-    background-color: dodgerblue;
+    background-color: #7bf1e3;
 }
 
 #budget-remainder {
-    background-color: darkseagreen;
+    background-color: #89f17b;
 }
 
 /* Dashboard Styles End */

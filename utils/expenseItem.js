@@ -12,7 +12,7 @@ export default function addExpenseItem (label, cost, parent) {
     tempCost.setAttribute("class", "expense-slice-cost")
 
     let tempButton = document.createElement("button")
-    tempButton.setAttribute("class", "expense-remove-button")
+    tempButton.setAttribute("class", "expense-remove-btn")
     // Setting expense element values
     tempLabel.innerHTML = label
     tempCost.innerHTML = "$" + cost

@@ -8,13 +8,25 @@
 </head>
 <body>
     <header>
-        <div id="sign-out-container">
-            <button id="sign-out-btn">Sign Out</button>
-        </div>
+        <nav id="nav-bar" class="bg-green-300 p-5 
+        flex flex-col items-center gap-4
+        md:flex-row items-center justify-between
+        ">
+            <h1 id="nav-name">Budgetr</h1>
+            <div id="sign-out-container">
+                <button id="sign-out-btn" class="p-2">Sign Out</button>
+            </div>
+        </nav>
     </header>
-    <main class="grid grid-cols-3 gap-4 p-5">
+    <main class="
+        flex flex-col items-center
+        lg:grid grid-cols-3 gap-2 p-5
+        ">
         <!--Column One-->
-        <div id="content-row-one" class="content-row flex flex-col items-start gap-2">
+        <div id="content-row-one" class="content-row 
+            flex flex-col items-start gap-2 w-full
+            lg: m-auto
+            ">
             <label for="budget-input">
                 Budget:
                 <input type="number" id="budget-input">
@@ -38,12 +50,19 @@
 
             <p id="error-display" class="hidden">TEST</p>
         </div>
+        <!--Column Two-->
 
-        <div id="content-row-two" class="content-row">
+        <div id="content-row-two" class="content-row flex flex-col gap-4 
+            w-full
+            lg: m-auto
+            ">
 
         </div>
-             
-        <div id="content-row-three" class="content-row">
+        <!--Column Three-->
+        <div id="content-row-three" class="content-row
+            w-full      
+            lg: m-auto
+        ">
             <h2>Expenses Summary</h2>
             <div id="chartContainer">
                 <canvas id="myChart"></canvas>
@@ -59,7 +78,6 @@
 <!--Render Expense Data-->
 <script type="module">
     import { getExpenseLabels, getCosts } from "../expenseFunctions.js"
-
     
     const ctx = document.getElementById('myChart');
 

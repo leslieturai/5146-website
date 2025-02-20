@@ -60,7 +60,7 @@ function renderExpenses() {
 }
 
 function attachRemoveEventListeners() {
-    removeExpBtn = document.querySelectorAll(".expense-remove-button");
+    removeExpBtn = document.querySelectorAll(".expense-remove-btn");
 
     removeExpBtn.forEach((element, i) => {
         element.addEventListener("click", () => {
