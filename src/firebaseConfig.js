@@ -136,6 +136,9 @@ export async function setBudget (newBudget) {
 /* deleteSavedBudget()
 setBudget(userBudget) */
 
+
+// Test comment
+
 export async function deleteDBexpense (id) {
   try {
     const pathRef = ref(db, "/0/userBudget/expenses/" + id); 
