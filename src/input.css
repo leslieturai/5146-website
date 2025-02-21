@@ -60,7 +60,7 @@ button:focus, input:focus {
 /* Log-in Page Styles */
 
 #btn-div {
-    border: 2px solid black;
+    border-radius: 1.5rem;
     padding: 10%;
     width: 60%;
     height: 100%;
@@ -68,14 +68,17 @@ button:focus, input:focus {
     display: flex;
     flex-direction: column;
     align-items: center;
+
+    background-color: #00632b;
     
 }
 
 #log-in-btn {
     width: 85%;
-    border: 2px solid black;
+    background-color: #89f17b;
     padding: 4%;
     border-radius: 10px;
+    font-size: 1.2rem;
 }
 
 /* Log-in Page Styles Emd*/

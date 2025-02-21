@@ -2274,19 +2274,21 @@ button:focus, input:focus {
   outline: 0.2rem solid #f17b89;
 }
 #btn-div {
-  border: 2px solid black;
+  border-radius: 1.5rem;
   padding: 10%;
   width: 60%;
   height: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #00632b;
 }
 #log-in-btn {
   width: 85%;
-  border: 2px solid black;
+  background-color: #89f17b;
   padding: 4%;
   border-radius: 10px;
+  font-size: 1.2rem;
 }
 #content-row-one {
   background-color: rgba(0, 99, 43, 0.502);
