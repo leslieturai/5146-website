@@ -2358,7 +2358,7 @@ button:focus, input:focus {
 .expense-remove-btn:hover {
   background-color: #f17b89;
 }
-#expense-budget, #budget-remainder {
+#expense-budget, #budget-remainder, #expense-total-display {
   padding: 5%;
   width: 100%;
   border-radius: 10px;
@@ -2368,6 +2368,9 @@ button:focus, input:focus {
 }
 #budget-remainder {
   background-color: #89f17b;
+}
+#expense-total-display {
+  background-color: #00bfff;
 }
 #chart-container {
   width: 100%;

@@ -24,7 +24,7 @@ const db = getDatabase(app)
 
 var userBudget = {
   "userBudget": {
-      "setBudget": 0,
+      "setBudget": 500,
       "expenses": [
           {
               "id": 0,

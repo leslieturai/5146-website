@@ -12,6 +12,9 @@ const expenseBudget = document.querySelector("#expense-budget")
 // Remainder display
 const remainder = document.querySelector("#budget-remainder")
 
+// Total expense display
+const expenseTotal = document.querySelector("#expense-total-display")
+
 // Elements to add expense
 const newExpName = document.querySelector("#expense-name-field")
 const newExpCost = document.querySelector("#expense-cost-field")
@@ -51,6 +54,14 @@ function calculateRemainder (arr) {
     return tempSum
 }
 
+function calculateTotalExpenses (arr) {
+    let tempTotal = 0
+    for (let i = 0; i < arr.length; i++) {
+        tempTotal += Number(arr[i].cost)
+    }
+    expenseTotal.innerHTML = "Total Expenses: " + "$" + tempTotal
+}
+
 function renderExpenses() {
     document.querySelectorAll(".expense-item").forEach(element => element.remove())
 
@@ -59,6 +70,7 @@ function renderExpenses() {
     }
 
     attachRemoveEventListeners(); // Reattach event listeners after rendering
+    calculateTotalExpenses(budgetArray.expenses)
 }
 
 function attachRemoveEventListeners() {
@@ -69,7 +81,8 @@ function attachRemoveEventListeners() {
             let tempIndex = ([...removeExpBtn].length - [...removeExpBtn].indexOf(element) - 1)
 
             budgetArray.expenses.splice(tempIndex, 1);
-            renderExpenses(); // Re-render the list after removing an item
+            renderExpenses(); // Rerender the list after removing an item
+            calculateTotalExpenses(budgetArray.expenses)
         });
     });
 }
@@ -82,6 +95,7 @@ async function fetchBudget() {
 
     expenseBudget.innerHTML = "Budget:" + " " + "$" + budget.userBudget.setBudget
     remainder.innerHTML = "Remainder: " + " " + "$" + String(budget.userBudget.setBudget - calculateRemainder(budgetArray.expenses))
+    calculateTotalExpenses(budgetArray.expenses)
 }
 
 fetchBudget();
@@ -161,11 +175,7 @@ addExpBtn.addEventListener("click", (event) => {
     event.preventDefault()
 
     // Expense error handling
-    if (budgetInput.value == "" || budgetInput.value < 0) {
-        errorDisplay.innerHTML = "Error: please enter a budget"
-        errorDisplay.setAttribute("class", "error")
-        return
-    } else if (newExpName.value == "") {
+   if (newExpName.value == "") {
         errorDisplay.innerHTML = "Error: please enter an expense name"
         errorDisplay.setAttribute("class", "error")
         return
@@ -187,6 +197,7 @@ addExpBtn.addEventListener("click", (event) => {
     errorDisplay.innerHTML = "Expense added!"
     errorDisplay.setAttribute("class", "success")
 
+    calculateTotalExpenses(budgetArray.expenses)
 
     budgetInput.value = ""
     newExpName.value = ""
@@ -216,6 +227,5 @@ saveExpBtn.addEventListener("click", (event) => {
     //
     clearExpenses()
     fetchBudget()
-
 
 })
