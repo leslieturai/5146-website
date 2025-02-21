@@ -22,7 +22,7 @@ const app = initializeApp(firebaseConfig);
 
 const db = getDatabase(app)
 
-var userBudget = {
+var userBudget2 = {
   "userBudget": {
       "setBudget": 500,
       "expenses": [
@@ -44,7 +44,14 @@ var userBudget = {
       ]
   }
 }
+  var userBudget = {
+    "userBudget": {
+        "setBudget": 0,
+        "expenses": [ 
 
+        ]
+    }
+  }
 
 
 const dbRef = ref(db)
@@ -97,6 +104,10 @@ export async function handleGoogleSignOut () {
 export async function getBudget() {
   try {
     const snapshot = await get(child(dbRef, "/0"))
+    if (!snapshot.val().userBudget.expenses) {
+      console.log("no expenses")
+      return 
+    }
     return snapshot.val()
   } catch (err) {
     console.error(err)

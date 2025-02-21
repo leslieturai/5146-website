@@ -87,8 +87,22 @@ function attachRemoveEventListeners() {
     });
 }
 
+function handleNoBudget () {
+    expenseBudget.innerHTML = "Budget:" + " " + "$" + 0
+    remainder.innerHTML = "Remainder: " + " " + "$" + 0
+    expenseTotal.innerHTML = "Total Expenses: " + "$" + 0
+}
+
 async function fetchBudget() {
     budget = await getBudget();
+
+    if (!budget) {
+        console.log("user has no budget")
+
+        handleNoBudget()
+        return
+    }
+    
     
     budgetArray = budget.userBudget;
     renderExpenses();
@@ -186,7 +200,17 @@ addExpBtn.addEventListener("click", (event) => {
     }
 
 
-
+    if (!budget) {
+        budget = {
+            "userBudget": {
+                "setBudget": 0,
+                "expenses": [ 
+        
+                ]
+            }
+          }
+        budgetArray = budget.userBudget
+    }
     addExpense(budgetArray.expenses.length + 1, newExpName.value, newExpCost.value)
     clearExpenses()
     for (let i = 0; i < budgetArray.expenses.length; i++) {
