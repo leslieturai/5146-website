@@ -85,68 +85,75 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!--Render Expense Data-->
 <script type="module">
-    import { getBudget } from "../../src/firebaseConfig.js"
+import { getBudget } from "../../src/firebaseConfig.js";
 
+let budget = await getBudget();
+let myChartInstance = null; // Track the Chart instance
 
-    let budget = await getBudget()
+// Function to extract labels
+function getLabels() {
+    if (budget) {
+        return budget.userBudget.expenses.map(expense => expense.label);
+    }
+    return [];
+}
 
-    let labels, costs;
+// Function to extract costs
+function getCosts() {
+    if (budget) {
+        return budget.userBudget.expenses.map(expense => expense.cost);
+    }
+    return [];
+}
 
-    function getLabels () {
-        if (budget) {
-            let expenseArray = budget.userBudget.expenses
-            let tempLabels = []
-            for (let i = 0; i < expenseArray.length; i++) {
-                tempLabels.push(
-                    expenseArray[i].label
-                )
-            }
-            return tempLabels
-        }
+// Function to render chart
+function renderChart(labels, costs) {
+    const ctx = document.getElementById("myChart");
+
+    // Destroy previous chart instance if it exists
+    if (myChartInstance) {
+        myChartInstance.destroy();
     }
 
-    function getCosts () {
-        let expenseArray = budget.userBudget.expenses
-        if (budget) {
-            let tempCosts = []
-            for (let i = 0; i < expenseArray.length; i++) {
-                tempCosts.push(
-                    expenseArray[i].cost
-                )
-            }
-            return tempCosts
-        }
-    }
-
-    
-    if (!budget) {
-        console.log("nothing here in dashboard")
-        labels = ""
-        costs = "" 
-    } else if (budget) {
-        let labels = getLabels()
-        let costs = getCosts()
-
-        const ctx = document.getElementById('myChart');
-
-        const data = {
+    const data = {
         labels: labels,
         datasets: [{
             data: costs,
             backgroundColor: [
-            'rgb(255, 99, 132)',
-            'rgb(54, 162, 235)',
-            'rgb(255, 205, 86)'
+                "rgb(255, 99, 132)",
+                "rgb(54, 162, 235)",
+                "rgb(255, 205, 86)"
             ],
             hoverOffset: 4
         }]
-        };
+    };
 
-        new Chart(ctx, {
+    // Create a new Chart instance
+    myChartInstance = new Chart(ctx, {
         type: "pie",
         data: data
-        });
-    }
+    });
+}
+
+// Case 1: If budget is available, render immediately
+if (budget) {
+    renderChart(getLabels(), getCosts());
+} else {
+    console.log("No budget data available, observing DOM changes...");
+
+    const container = document.getElementById("content-row-two");
+    const observer = new MutationObserver(() => {
+        let tempLabels = [];
+        let tempCosts = [];
+
+        document.querySelectorAll(".expense-label").forEach(el => tempLabels.push(el.innerHTML));
+        document.querySelectorAll(".expense-slice-cost").forEach(el => tempCosts.push(Number(el.innerHTML.slice(1))));
+
+        renderChart(tempLabels, tempCosts);
+    });
+
+    observer.observe(container, { childList: true });
+}
 </script>
 <script type="module">
     import { handleGoogleSignOut } from "../../src/firebaseConfig.js"
