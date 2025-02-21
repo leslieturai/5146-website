@@ -29,6 +29,8 @@ var budgetArray = []
 
 
 
+
+
 /* function renderExpenses () {
     for (let i = 0; i < budgetArray.expenses.length; i++) {
         addExpenseItem(budgetArray.expenses[i].label, budgetArray.expenses[i].cost, budgetItemContainer)
@@ -126,6 +128,11 @@ export function getCosts () {
         tempCosts.push(budgetArray[i].cost)
     }
     return tempCosts
+}
+
+
+export function testBudget () {
+    return budgetArray
 }
 
 

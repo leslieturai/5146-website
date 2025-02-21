@@ -12,7 +12,7 @@
         flex flex-col items-center gap-4
         md:flex-row items-center justify-between
         ">
-            <h1 id="nav-name">Budgetr</h1>
+            <h1 id="nav-name">Budgetr - Dashboard</h1>
             <div id="sign-out-container">
                 <button id="sign-out-btn" class="p-2">Sign Out</button>
             </div>
@@ -27,13 +27,14 @@
             flex flex-col items-start gap-2 w-full
             lg: m-auto
             ">
+            <h2>
+                Expenses
+            </h2>
             <label for="budget-input">
                 Budget:
                 <input type="number" id="budget-input">
             </label>
-            <h3>
-                Enter Expenses Below:
-            </h3>
+
             <label for="expense-name-field">
                 Expense:
                 <input type="text" id="expense-name-field" maxlength="25">
@@ -64,7 +65,7 @@
             lg: m-auto
         ">
             <h2>Expenses Summary</h2>
-            <div id="chartContainer">
+            <div id="chart-container">
                 <canvas id="myChart"></canvas>
             </div>
         </div>   
@@ -77,14 +78,52 @@
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!--Render Expense Data-->
 <script type="module">
-    import { getExpenseLabels, getCosts } from "../expenseFunctions.js"
+    //import { getExpenseLabels, getCosts, testBudget } from "../expenseFunctions.js"
+    import { getBudget } from "/src/firebaseConfig.js"
+
+
+    let budget = await getBudget()
+
+    let labels = getLabels()
+    let costs = getCosts()
+
+
+
+    function getLabels () {
+        if (budget) {
+            let expenseArray = budget.userBudget.expenses
+            let tempLabels = []
+            for (let i = 0; i < expenseArray.length; i++) {
+                tempLabels.push(
+                    expenseArray[i].label
+                )
+            }
+            return tempLabels
+        }
+    }
+
+    function getCosts () {
+        let expenseArray = budget.userBudget.expenses
+        if (budget) {
+            let tempCosts = []
+            for (let i = 0; i < expenseArray.length; i++) {
+                tempCosts.push(
+                    expenseArray[i].cost
+                )
+            }
+            return tempCosts
+        }
+    }
+
+
+
     
     const ctx = document.getElementById('myChart');
 
-    const data = {
-    labels: getExpenseLabels(),
+   const data = {
+    labels: labels,
     datasets: [{
-        data: getCosts(),
+        data: costs,
         backgroundColor: [
         'rgb(255, 99, 132)',
         'rgb(54, 162, 235)',
