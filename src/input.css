@@ -19,10 +19,6 @@ input {
     border-radius: 15px;
 }
 
-/* main {
-    height: 90vh;
-} */
-
 .content-row {
     border-radius: 1.5rem;
     min-height: 100%;
@@ -138,7 +134,7 @@ button:focus, input:focus {
     justify-content: space-between;
     padding: 2%;
 
-    border: 0.3rem solid #00632b;
+    border: 0.3rem solid rgb(0, 191, 255, 0.7);
     border-radius: 10px;
     width: 100%;
 

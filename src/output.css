@@ -1417,10 +1417,6 @@
     border-style: var(--tw-border-style);
     border-width: 1px;
   }
-  .border-2 {
-    border-style: var(--tw-border-style);
-    border-width: 2px;
-  }
   .border-x {
     border-inline-style: var(--tw-border-style);
     border-inline-width: 1px;
@@ -2347,7 +2343,7 @@ button:focus, input:focus {
   align-items: center;
   justify-content: space-between;
   padding: 2%;
-  border: 0.3rem solid #00632b;
+  border: 0.3rem solid rgb(0, 191, 255, 0.7);
   border-radius: 10px;
   width: 100%;
   gap: 2%;
