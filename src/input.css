@@ -56,8 +56,6 @@ button:focus, input:focus {
     outline: 0.2rem solid #00632b;
 }
 
-
-
 .expense-remove-btn:focus {
     background-color: #f17b89;
     outline: 0.2rem solid #f17b89;

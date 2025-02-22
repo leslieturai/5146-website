@@ -30,9 +30,7 @@ const errorDisplay = document.querySelector("#error-display")
 // Remove expense buttons
 var removeExpBtn = []
 
-var budget; // Local copy of budget data, used as redundancy and if there is no object to retrieve from database
-
-var budgetArray = [] // Retrieved budget is assigned to this variable directly if it exists
+var budget = [] // Local copy of budget data
 
 // Function to clear all expenses in HTML, simply deleted, used to reset the list if necessary before rerendering
 function clearExpenses () {
@@ -42,6 +40,9 @@ function clearExpenses () {
 // Functions to calculate remaining cash
 function calculateRemainder (arr) {
     let tempSum = 0
+    if (arr == null) {
+        return
+    }
     for (let i = 0; i < arr.length; i++) {
         tempSum = tempSum + arr[i].cost
     }
@@ -50,6 +51,9 @@ function calculateRemainder (arr) {
 
 function calculateTotalExpenses (arr) {
     let tempTotal = 0
+    if (arr == null) {
+        return
+    }
     for (let i = 0; i < arr.length; i++) {
         tempTotal += Number(arr[i].cost)
     }
@@ -60,13 +64,17 @@ function calculateTotalExpenses (arr) {
 function renderExpenses() {
     // Currently rendered expenses are removed
     document.querySelectorAll(".expense-item").forEach(element => element.remove())
+    if (budget.userBudget.expenses == null) {
+        console.log("No expenses to render")
+        return
+    }
     // Creating, appending, and rendering a new expense item for every element in the expenses array of the budget object
-    for (let i = 0; i < budgetArray.expenses.length; i++) {
-        addExpenseItem(budgetArray.expenses[i].label, budgetArray.expenses[i].cost, budgetItemContainer);
+    for (let i = 0; i < budget.userBudget.expenses.length; i++) {
+        addExpenseItem(budget.userBudget.expenses[i].label, budget.userBudget.expenses[i].cost, budgetItemContainer);
     }
 
     attachRemoveEventListeners(); // Reattach event listeners for remove buttons after rendering
-    calculateTotalExpenses(budgetArray.expenses) // Calculating total expenses and displaying the amount
+    calculateTotalExpenses(budget.userBudget.expenses) // Calculating total expenses and displaying the amount
 }
 
 // Function to attach and handle event listeners for the remove remove 
@@ -82,12 +90,13 @@ function attachRemoveEventListeners() {
             /* 
                 Ex: 3rd element in the nodeList out of 4 has its remove button clicked,
                 4 - 2 - 1 = 1
-                1 is that corresponding expense's index representation in the expenses array in budgetArray, so it is spliced and the expenses rerendered below
+                1 is that corresponding expense's index representation in the expenses array in budget, so it is spliced and the expenses rerendered below
             */
 
-            budgetArray.expenses.splice(tempIndex, 1);
+            budget.userBudget.expenses.splice(tempIndex, 1);
             renderExpenses() // Rerender the list after removing an item
-            calculateTotalExpenses(budgetArray.expenses)
+            calculateTotalExpenses(budget.userBudget.expenses)
+            remainder.innerHTML = "Remainder: " + " " + "$" + String(budget.userBudget.setBudget - calculateRemainder(budget.userBudget.expenses))
         })
     })
 }
@@ -102,61 +111,54 @@ function handleNoBudget () {
 // Async function to check if there is a budget
 async function fetchBudget() {
     budget = await getBudget();
-    if (!budget) {
+    if (!budget || budget.userBudget.expenses == null) {
         // Intializing displays to zero if not found
         handleNoBudget()
-        return
+        budget = {
+            "userBudget": {
+                "setBudget": 0,
+                "expenses": [ 
+                    
+                ]
+            }
+        }
+    } else {
+        renderExpenses() // Data is rendered
+        // Budget, expenses, and remainder are calculated
+        expenseBudget.innerHTML = "Budget:" + " " + "$" + budget.userBudget.setBudget
+        remainder.innerHTML = "Remainder: " + " " + "$" + String(budget.userBudget.setBudget - calculateRemainder(budget.userBudget.setBudget))
+        calculateTotalExpenses(budget.userBudget.expenses)
     }
-    // Else, budgetArray gets a copy of the returned data
-    budgetArray = budget.userBudget;
-    renderExpenses() // Data is rendered
-    // Budget, expenses, and remainder are calculated
-    expenseBudget.innerHTML = "Budget:" + " " + "$" + budget.userBudget.setBudget
-    remainder.innerHTML = "Remainder: " + " " + "$" + String(budget.userBudget.setBudget - calculateRemainder(budgetArray.expenses))
-    calculateTotalExpenses(budgetArray.expenses)
+  
 }
 // Calling fetchBudget
-fetchBudget();
+fetchBudget()
 
 // Functionality to add expenses
-function addExpense (_id, _label, _cost, _budget) {
-    if (newExpName.value && newExpCost) {
-        // As long as the expense has content, a new object is simply pushed to budgetArray.expenses
-        budgetArray.expenses.push(
+function addExpense (_id, _label, _cost) {
+    if (newExpName.value && newExpCost.value) {
+        // As long as the expense has content, a new object is simply pushed to expense array
+        budget.userBudget.expenses.push(
             {
                 id: _id,
                 label: _label,
                 cost: Number(_cost)
             }
         )
+        
     } else {
         console.log("Error")
         return
     }
 }
-// Exporting functions for dashboard.html to handle budget data once it is retrieved
-export function getExpenseLabels () {
-    let tempLabels = []
-    for (let i = 0; i < budgetArray.length; i++) {
-        tempLabels.push(budgetArray[i].label)
-    }
-    return tempLabels
-}
 
-export function getCosts () {
-    let tempCosts = []
-    for (let i = 0; i < budgetArray.length; i++) {
-        tempCosts.push(budgetArray[i].cost)
-    }
-    return tempCosts
-}
 
 // Button Event Handlers below
 
 // Event listener for handling budget input
 budgetInput.addEventListener("input", (event) => {
     event.preventDefault()
-    if (!budget) {
+    if (budget.userBudget.expenses == null || budget == null) {
         budget = {
             "userBudget": {
                 "setBudget": 0,
@@ -167,16 +169,20 @@ budgetInput.addEventListener("input", (event) => {
           }
         // Setting setBudget to user input directly
         budget.userBudget.setBudget = Number(budgetInput.value)
-        // Setting bugdetArray to reference
-        budgetArray = budget.userBudget
         // Displaying and updating budget and remainder as they type
         expenseBudget.innerHTML = "Budget: " + "$" + budget.userBudget.setBudget
-        remainder.innerHTML = "Remainder: " + " " + "$" + String(budget.userBudget.setBudget - calculateRemainder(budgetArray.expenses))
+        remainder.innerHTML = "Remainder: " + " " + "$" + String(budget.userBudget.setBudget - calculateRemainder(budget.userBudget.expenses))
+    } else if (budget) {
+         // Setting setBudget to user input directly
+         budget.userBudget.setBudget = Number(budgetInput.value)
+         // Displaying and updating budget and remainder as they type
+         expenseBudget.innerHTML = "Budget: " + "$" + budget.userBudget.setBudget
+         remainder.innerHTML = "Remainder: " + " " + "$" + String(budget.userBudget.setBudget - calculateRemainder(budget.userBudget.expenses))
     }
 
     // Displaying and updating budget and remainder as they type
     expenseBudget.innerHTML = "Budget: " + "$" + budget.userBudget.setBudget
-    remainder.innerHTML = "Remainder: " + " " + "$" + String(budget.userBudget.setBudget - calculateRemainder(budgetArray.expenses))
+    remainder.innerHTML = "Remainder: " + " " + "$" + String(budget.userBudget.setBudget - calculateRemainder(budget.userBudget.expenses))
 })
 
 // Event listener for "Add" button to add an expense
@@ -194,27 +200,14 @@ addExpBtn.addEventListener("click", (event) => {
         errorDisplay.setAttribute("class", "error")
         return
     }
-    // If there is no budget retrieved - or it doesn't exist at this point for some reason,
-    // create the budget manually as a disposable reference (see firebaseConfig.js for data structure examples)
-    if (!budget) {
-        budget = {
-            "userBudget": {
-                "setBudget": 0,
-                "expenses": [ 
-        
-                ]
-            }
-          }
-          // Setting bugdetArray to reference
-          budgetArray = budget.userBudget
-    }
-    // Otherwise, add the expense
-    addExpense(budgetArray.expenses.length + 1, newExpName.value, newExpCost.value)
+    // Add the expense
+    addExpense(budget.userBudget.expenses.length + 1, newExpName.value, newExpCost.value)
+    console.log(budget)
     // Delete rendered expenses
     clearExpenses()
     // Rerender expenses
-    for (let i = 0; i < budgetArray.expenses.length; i++) {
-        addExpenseItem(budgetArray.expenses[i].label, budgetArray.expenses[i].cost, budgetItemContainer)
+    for (let i = 0; i < budget.userBudget.expenses.length; i++) {
+        addExpenseItem(budget.userBudget.expenses[i].label, budget.userBudget.expenses[i].cost, budgetItemContainer)
     }
     // Update event listeners of rerendered list for their remove buttons
     attachRemoveEventListeners()
@@ -222,11 +215,13 @@ addExpBtn.addEventListener("click", (event) => {
     errorDisplay.innerHTML = "Expense added!"
     errorDisplay.setAttribute("class", "success")
     // Total expeneses recalculated
-    calculateTotalExpenses(budgetArray.expenses)
-    // Onput fields cleared
-    budgetInput.value = ""
+    calculateTotalExpenses(budget.userBudget.expenses)
+    // Input fields cleared
+    //budgetInput.value = ""
     newExpName.value = ""
     newExpCost.value = ""   
+    // Calculating remainder upon update
+    remainder.innerHTML = "Remainder: " + " " + "$" + String(budget.userBudget.setBudget - calculateRemainder(budget.userBudget.expenses))
     // Setting the error/success message to disappear after 5 seconds via another class change
     setTimeout(function () {
         errorDisplay.innerHTML = ""
@@ -237,8 +232,6 @@ addExpBtn.addEventListener("click", (event) => {
 // Event listener for the "Save" button for saving data to firebase
 saveExpBtn.addEventListener("click", (event) => {
     event.preventDefault()
-    // Deleting data saved already
-    // (Data the user did not delete is still saved in both budget and BudgetArray)
     deleteSavedBudget()
     // Saving the new budget object to firebase
     setBudget(budget)

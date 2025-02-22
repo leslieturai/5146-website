@@ -82,27 +82,21 @@
 // Importing helper function to retrieve data from firebase
 import { getBudget } from "../../src/firebaseConfig.js"
 
-let budget = await getBudget() // Await result
+//let budget = await getBudget() // Await result
 let myChartInstance = null // Track the Chart instance
 
 // Function to extract labels
-function getLabels() {
-    if (budget) {
-        return budget.userBudget.expenses.map(expense => expense.label)
-    }
-    return []
+function getLabels(arr) {
+    return document.querySelectorAll(".expense-label").forEach(el => arr.push(el.innerHTML))
 }
 
 // Function to extract costs
-function getCosts() {
-    if (budget) {
-        return budget.userBudget.expenses.map(expense => expense.cost)
-    }
-    return []
+function getCosts(arr) {
+    return document.querySelectorAll(".expense-slice-cost").forEach(el => arr.push(Number(el.innerHTML.slice(1))))
 }
 
 // Function to render chart
-function renderChart(labels, costs) {
+function renderChart(_labels, _costs) {
     const ctx = document.getElementById("myChart")
 
     // Destroy previous chart instance if it exists
@@ -111,9 +105,9 @@ function renderChart(labels, costs) {
     }
     // Arguments passed into chart
     const data = {
-        labels: labels,
+        labels: _labels,
         datasets: [{
-            data: costs,
+            data: _costs,
             backgroundColor: [
                 "rgb(255, 99, 132)",
                 "rgb(54, 162, 235)",
@@ -136,19 +130,17 @@ function renderChart(labels, costs) {
     are observed and read to return local user input as chart data
     via MutationObserver - listening for changes on specific elements. 
 */
-if (budget) {
-    renderChart(getLabels(), getCosts()) // If a budget can be retrieved, pass database data to chart
-} else { // Otherwise, observe content-row-two (the middle column)
-    console.log("No budget data available, observing DOM changes...")
+if (myChartInstance == null) {
+    console.log("Observing DOM changes...")
 
     const container = document.getElementById("content-row-two")
     const observer = new MutationObserver(() => {
         let tempLabels = []
         let tempCosts = []
 
-        document.querySelectorAll(".expense-label").forEach(el => tempLabels.push(el.innerHTML))
-        document.querySelectorAll(".expense-slice-cost").forEach(el => tempCosts.push(Number(el.innerHTML.slice(1))))
-
+        getLabels(tempLabels)
+        getCosts(tempCosts)
+    
         renderChart(tempLabels, tempCosts)
     })
 

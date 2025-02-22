@@ -98,7 +98,7 @@ export async function handleGoogleSignOut () {
 export async function getBudget() {
   try {
     const snapshot = await get(child(dbRef, "/0"))
-    if (!snapshot.val().userBudget.expenses) {
+    if (snapshot.val() == null) {
       console.log("no expenses")
       return // If no expenses, return nothing
     }
@@ -122,6 +122,7 @@ export async function deleteSavedBudget () {
 export async function setBudget (newBudget) {
   try {
     set(ref(db, "0"), newBudget )
+    console.log("Saved to database")
   } catch (error) {
     console.error("Error setting data:", error)
   }
