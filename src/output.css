@@ -2256,6 +2256,9 @@
     overflow: hidden;
   }
 }
+html {
+  background-color: rgb(89, 255, 71, 0.2);
+}
 p, label {
   font-size: 1rem;
 }

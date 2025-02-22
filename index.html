@@ -7,11 +7,6 @@
 
     <title>Budgetr | Login</title>
 </head>
-<style>
-    html {
-        background-color: rgb(89, 255, 71, 0.2);
-    }
-</style>
 <body>
     <header>
         <nav id="nav-bar" class="bg-green-300 p-5 
@@ -32,20 +27,14 @@
 </body>
 </html>
 <script type="module">
+    // Importing necessary firebase functionality via helper function
     import { handleGoogleLogIn } from "./src/firebaseConfig.js"
-    
-    const main = document.querySelector("#content-container")
-
+    // Handling log in/sign up via Google account, making it Single Sign-On
     document.getElementById("log-in-btn").addEventListener("click", async (event) => {
         event.preventDefault()
         await handleGoogleLogIn()
         
-    })
-
-    
-
-    //window.location.href = "./utils/pages/dashboard.html"
-    
+    })    
 </script>
 <!--Import Chart.js-->
 <script type="module" src="./src/firebaseConfig.js"></script>

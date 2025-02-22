@@ -6,11 +6,6 @@
     <title>Dashboard</title>
     <link rel="stylesheet" href="../../src/output.css">
 </head>
-<style>
-    html {
-        background-color: rgb(89, 255, 71, 0.2);
-    }
-</style>
 <body>
     <header>
         <nav id="nav-bar" class="bg-green-300 p-5 
@@ -59,12 +54,11 @@
             <p id="error-display" class="hidden">TEST</p>
         </div>
         <!--Column Two-->
-
+        <!--Expense items will be appended to this element-->
         <div id="content-row-two" class="content-row  
             w-full
             lg: m-auto
             ">
-
         </div>
         <!--Column Three-->
         <div id="content-row-three" class="content-row
@@ -79,42 +73,43 @@
     </main>
 </body>
 </html>
+<!--Entry points for functions-->
 <script type="module" src="../expenseFunctions.js"></script>
-<script type="module" src="../budgetFunctions.js"></script>
-<!--Import Chart.js-->
+<!--Import Chart.js for chart functionality-->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <!--Render Expense Data-->
 <script type="module">
-import { getBudget } from "../../src/firebaseConfig.js";
+// Importing helper function to retrieve data from firebase
+import { getBudget } from "../../src/firebaseConfig.js"
 
-let budget = await getBudget();
-let myChartInstance = null; // Track the Chart instance
+let budget = await getBudget() // Await result
+let myChartInstance = null // Track the Chart instance
 
 // Function to extract labels
 function getLabels() {
     if (budget) {
-        return budget.userBudget.expenses.map(expense => expense.label);
+        return budget.userBudget.expenses.map(expense => expense.label)
     }
-    return [];
+    return []
 }
 
 // Function to extract costs
 function getCosts() {
     if (budget) {
-        return budget.userBudget.expenses.map(expense => expense.cost);
+        return budget.userBudget.expenses.map(expense => expense.cost)
     }
-    return [];
+    return []
 }
 
 // Function to render chart
 function renderChart(labels, costs) {
-    const ctx = document.getElementById("myChart");
+    const ctx = document.getElementById("myChart")
 
     // Destroy previous chart instance if it exists
     if (myChartInstance) {
-        myChartInstance.destroy();
+        myChartInstance.destroy()
     }
-
+    // Arguments passed into chart
     const data = {
         labels: labels,
         datasets: [{
@@ -126,35 +121,41 @@ function renderChart(labels, costs) {
             ],
             hoverOffset: 4
         }]
-    };
+    }
 
     // Create a new Chart instance
     myChartInstance = new Chart(ctx, {
         type: "pie",
         data: data
-    });
+    })
 }
 
-// Case 1: If budget is available, render immediately
+/*
+    If there is already a saved budget, it is rendered.
+    If there is no budget expenses saved, then changes in HTML
+    are observed and read to return local user input as chart data
+    via MutationObserver - listening for changes on specific elements. 
+*/
 if (budget) {
-    renderChart(getLabels(), getCosts());
-} else {
-    console.log("No budget data available, observing DOM changes...");
+    renderChart(getLabels(), getCosts()) // If a budget can be retrieved, pass database data to chart
+} else { // Otherwise, observe content-row-two (the middle column)
+    console.log("No budget data available, observing DOM changes...")
 
-    const container = document.getElementById("content-row-two");
+    const container = document.getElementById("content-row-two")
     const observer = new MutationObserver(() => {
-        let tempLabels = [];
-        let tempCosts = [];
+        let tempLabels = []
+        let tempCosts = []
 
-        document.querySelectorAll(".expense-label").forEach(el => tempLabels.push(el.innerHTML));
-        document.querySelectorAll(".expense-slice-cost").forEach(el => tempCosts.push(Number(el.innerHTML.slice(1))));
+        document.querySelectorAll(".expense-label").forEach(el => tempLabels.push(el.innerHTML))
+        document.querySelectorAll(".expense-slice-cost").forEach(el => tempCosts.push(Number(el.innerHTML.slice(1))))
 
-        renderChart(tempLabels, tempCosts);
-    });
+        renderChart(tempLabels, tempCosts)
+    })
 
-    observer.observe(container, { childList: true });
+    observer.observe(container, { childList: true })
 }
 </script>
+<!--Function and import to handle signing out via event handler-->
 <script type="module">
     import { handleGoogleSignOut } from "../../src/firebaseConfig.js"
 
